@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using NAudio.Wave;
+using System.IO;
 
 namespace EarTrainer
 {
@@ -56,21 +57,71 @@ namespace EarTrainer
                 if (audioFile == null)
                 {
                     audioFile = new AudioFileReader(inPath);
-
-                    audioFile.ToMono();
                     audioFile.ToStereo();
 
-                    MessageBox.Show(audioFile.WaveFormat.SampleRate.ToString());
+                    var outFormat = new WaveFormat(44100, 2);
+                    ISampleProvider wave;
 
+                    using (var resampler = new MediaFoundationResampler(audioFile, outFormat))
+                    {
+                        wave = resampler.ToSampleProvider();
+                    }
 
-                    outputDevice.Init(audioFile);
+                    //MessageBox.Show(audioFile.WaveFormat.Channels.ToString());
+
+                    //audioFile.ToMono();
+                    //audioFile.ToStereo();
+
+                    var bits = wave.WaveFormat.BitsPerSample;
+                    var Fs = wave.WaveFormat.SampleRate;
+                    var channels = wave.WaveFormat.Channels;
+                    
+
+                    MessageBox.Show(bits.ToString());
+                    MessageBox.Show(Fs.ToString());
+                    MessageBox.Show(channels.ToString());
+
+                    string outpath = @"E:\states.dat";
+
+                    var streamOut = new MemoryStream();
+                    using (BinaryWriter writer = new BinaryWriter(File.Open(outpath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read)))
+                    {
+                        int FS = 44100;
+                        float period = 5; // ms
+                        float periodTicks = period / 1000 * 44100;
+                        float fullPath = 0f;
+
+                        int bb = 0;
+                        do
+                        {
+                            float[] samples = new float[1];
+
+                            bb = wave.Read(samples, 0, samples.Length);
+
+                            var value = samples[0];
+                            writer.Write(samples[0]);
+                        } while (bb > 0);
+
+                        /*
+                        byte[] buf = new byte[4096];
+                        int bytesRead = 0;
+
+                        do
+                        {
+                            bytesRead = wave.Read(buf, 0, buf.Length);
+                            writer.Write(buf, 0, bytesRead);
+                        } while (bytesRead > 0);
+                        */
+                    }
+
+                    //outputDevice.Init(audioFile);
                 }
-                
 
 
-                outputDevice.Play();
 
-                
+                //outputDevice.Play();
+
+                MessageBox.Show("Done!");
 
             }
         }
