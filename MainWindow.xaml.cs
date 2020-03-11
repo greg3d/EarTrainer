@@ -26,18 +26,26 @@ namespace EarTrainer
 
         private WaveOutEvent outputDevice;
         private AudioFileReader audioFile;
+        private WaveFileWriter outWavFile;
+
+        private string inputFile = "C:\\input";
+        public string outputFile;
+
+        
 
         public MainWindow()
         {
+
             InitializeComponent();
+
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Title = "Выберите входной файл";
 
-
-            ofd.InitialDirectory = "c:\\";
+            
             ofd.Filter = "Wave файлы (*.wav)|*.wav|MP3 файлы (*.mp3)|*.mp3";
             //ofd.FilterIndex = 2;
             //ofd.RestoreDirectory = true;
@@ -76,42 +84,66 @@ namespace EarTrainer
                     var Fs = wave.WaveFormat.SampleRate;
                     var channels = wave.WaveFormat.Channels;
                     
-
                     MessageBox.Show(bits.ToString());
                     MessageBox.Show(Fs.ToString());
                     MessageBox.Show(channels.ToString());
 
                     string outpath = @"E:\states.dat";
+                    string outwav = @"E:\states.wav";
 
-                    var streamOut = new MemoryStream();
+                    float FS = 44100;
+
+                    outWavFile = new WaveFileWriter(outwav, new WaveFormat((int)FS,16,2));
+                    
                     using (BinaryWriter writer = new BinaryWriter(File.Open(outpath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read)))
                     {
-                        int FS = 44100;
-                        float period = 5; // ms
-                        float periodTicks = period / 1000 * 44100;
-                        float fullPath = 0f;
+                        
+                        float period = 10f; // ms
+                        double fullPath = period;
 
                         int bb = 0;
+                        int i = 0;
+                        bool mode = false;
+
                         do
                         {
-                            float[] samples = new float[1];
 
+                            float[] samples = new float[2];
                             bb = wave.Read(samples, 0, samples.Length);
+                            var leftVal = samples[0];
+                            var rightVal = samples[1];
 
-                            var value = samples[0];
-                            writer.Write(samples[0]);
+                            var curPath = Math.Round(i * 1000f / FS);
+
+                            if (curPath >= fullPath)
+                            {
+                                mode = !mode;
+                                fullPath = fullPath + period;
+                            }
+
+                            if (mode == true)
+                            {
+                                leftVal = 0;
+                            } else
+                            {
+                                rightVal = 0;
+                            }
+                            
+                            writer.Write(leftVal);
+                            writer.Write(rightVal);
+
+                            outWavFile.WriteSample(leftVal);
+                            outWavFile.WriteSample(rightVal);
+
+                            i++;
+
                         } while (bb > 0);
 
-                        /*
-                        byte[] buf = new byte[4096];
-                        int bytesRead = 0;
+                        writer.Flush();
+                        writer.Close();
+                        outWavFile.Flush();
+                        outWavFile.Close();
 
-                        do
-                        {
-                            bytesRead = wave.Read(buf, 0, buf.Length);
-                            writer.Write(buf, 0, bytesRead);
-                        } while (bytesRead > 0);
-                        */
                     }
 
                     //outputDevice.Init(audioFile);
