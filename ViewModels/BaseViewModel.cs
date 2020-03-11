@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace DXTesting
+namespace EarTrainer
 {
     public class BaseViewModel : INotifyPropertyChanged
     {

@@ -28,34 +28,24 @@ namespace EarTrainer
         private AudioFileReader audioFile;
         private WaveFileWriter outWavFile;
 
-        private string inputFile = "C:\\input";
-        public string outputFile;
-
-        
+        public string outPutFile;
 
         public MainWindow()
         {
-
             InitializeComponent();
-
+            //this.DataContext = new MainWindowViewModel();
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Title = "Выберите входной файл";
-
-            
             ofd.Filter = "Wave файлы (*.wav)|*.wav|MP3 файлы (*.mp3)|*.mp3";
-            //ofd.FilterIndex = 2;
-            //ofd.RestoreDirectory = true;
 
             if (ofd.ShowDialog() == true)
             {
-                var inPath = ofd.FileName;
-
-
-
+                inputTextBox.Text = ofd.FileName;
+                
                 if (outputDevice == null)
                 {
                     outputDevice = new WaveOutEvent();
@@ -64,7 +54,7 @@ namespace EarTrainer
 
                 if (audioFile == null)
                 {
-                    audioFile = new AudioFileReader(inPath);
+                    audioFile = new AudioFileReader(inputTextBox.Text);
                     audioFile.ToStereo();
 
                     var outFormat = new WaveFormat(44100, 2);
