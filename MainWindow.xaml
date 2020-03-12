@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EarTrainer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="395.263" Width="800"
+        Title="MainWindow" Height="320.263" Width="800"
         x:Name="MainWindow1">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -13,13 +13,34 @@
             <ColumnDefinition Width="8*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="70"/>
-            <RowDefinition Height="25*"/>
-            <RowDefinition Height="25*"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="201*"/>
+            <RowDefinition Height="38*"/>
         </Grid.RowDefinitions>
-        <GroupBox x:Name="groupBox" Header="Настройки" Margin="10,0,10,10" Grid.Row="1" Grid.ColumnSpan="2"/>
-        <TextBox x:Name="inputTextBox" Margin="10" TextWrapping="Wrap" Text="{Binding Path=InputFile, Mode=TwoWay}" VerticalContentAlignment="Center" FontSize="24" Padding="5,0,0,0"/>
-        <Button x:Name="button" Content="Обзор..." Margin="0,10,10,10" Grid.Column="1" FontSize="24" Click="button_Click"/>
+        <GroupBox x:Name="groupBox" Header="Настройки" Margin="10,0,10,10" Grid.Row="1">
+            <StackPanel Margin="0">
+                <Label x:Name="label" Content="Имя выходного файла:"/>
+                <Label x:Name="outputLabel" Content="{Binding Path=OutputFile, Mode=TwoWay}" Height="28"/>
+                <Separator Height="14" Margin="0"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="203"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="label4" Content="Длительность полу-волны, мс:" Grid.ColumnSpan="3" Height="26" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="5,0" RenderTransformOrigin="0.501,0.526"/>
+                    <TextBox x:Name="periodBox" TextWrapping="Wrap" Text="{Binding Path=Period, Mode=TwoWay}" Grid.Column="1" Height="26" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="80"/>
+                    <Button x:Name="minus1" Content="-1" Grid.Column="1" Margin="85,0,0,0" HorizontalAlignment="Left" Width="51" Height="26" VerticalAlignment="Top" Click="minus1_Click"/>
+                    <Button x:Name="plus1" Content="+1" Grid.Column="1" Margin="136,0,0,0" HorizontalAlignment="Left" Width="51" Height="26" VerticalAlignment="Top" Click="plus1_Click"/>
+                    <Button x:Name="minus10" Content="-10" Grid.Column="1" Margin="194,0,0,0" HorizontalAlignment="Left" Width="51" Height="26" VerticalAlignment="Top" Click="minus10_Click"/>
+                    <Button x:Name="plus10" Content="+10" Grid.Column="1" Margin="245,0,0,0" HorizontalAlignment="Left" Width="51" Height="26" VerticalAlignment="Top" Click="plus10_Click"/>
+                </Grid>
+
+            </StackPanel>
+        </GroupBox>
+        <TextBox x:Name="inputTextBox" Margin="10,10,127,10" TextWrapping="Wrap" Text="{Binding Path=InputFile, Mode=TwoWay}" VerticalContentAlignment="Center" FontSize="18" Padding="5,0,0,0" Grid.ColumnSpan="2"/>
+        <Button x:Name="button" Content="Обзор..." Margin="0,10,10,10" Grid.Column="1" FontSize="18" Click="button_Click" HorizontalAlignment="Right" Width="112"/>
+        <Button x:Name="button1" Content="Поехали!" Grid.Column="1" Margin="0,10,10,0" Grid.Row="1" FontSize="24" Click="button1_Click" Height="104" VerticalAlignment="Top"/>
+        <ProgressBar x:Name="pbar" Margin="10" Grid.Row="2" />
 
     </Grid>
 </Window>
