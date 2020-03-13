@@ -42,6 +42,15 @@ namespace EarTrainer
 
             settings.PropertyChanged += Settings_PropertyChanged;
             prgrs = new Progress<int>(s => pbar.Value = s);
+
+            settings.StartEnabled = false;
+            settings.ProcessEnabled = false;
+            settings.IsProcessing = false;
+            progBarMessage.Visibility = Visibility.Hidden;
+
+            
+
+            
         }
 
         private void Settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -78,6 +87,9 @@ namespace EarTrainer
 
                 settings.OutputFile = file + "__" + settings.Period.ToString() + "ms.wav";
 
+
+                settings.StartEnabled = true;
+                settings.ProcessEnabled = true;
                 /*
                 if (outputDevice == null)
                 {
@@ -97,6 +109,13 @@ namespace EarTrainer
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
+
+            settings.IsProcessing = true;
+            progBarMessage.Visibility = Visibility.Visible;
+
+            settings.StartEnabled = false;
+            settings.ProcessEnabled = false;
+
             var calculate = Task.Factory.StartNew(() =>
             {
                 prgrs.Report(0);
@@ -122,9 +141,7 @@ namespace EarTrainer
                 var bits = wave.WaveFormat.BitsPerSample;
                 var Fs = wave.WaveFormat.SampleRate;
                 var channels = wave.WaveFormat.Channels;
-
                 
-
                 //string outpath = @"E:\states.dat";
                 string outwav = settings.OutputFile;
 
@@ -149,7 +166,6 @@ namespace EarTrainer
                         if (i % 1000 == 0)
                         {
                             prgrs.Report((int) (i / (float)n * 100 * 0.9f + 10f));
-
                         }
 
                         float[] samples = new float[2];
@@ -198,8 +214,27 @@ namespace EarTrainer
                 }
 
                 //outputDevice.Init(audioFile);
-                MessageBox.Show("Готово!");
+                
+
+                
+
+                
+
             });
+
+            calculate.GetAwaiter().OnCompleted(() =>
+            {
+                settings.IsProcessing = false;
+                progBarMessage.Visibility = Visibility.Hidden;
+
+                settings.StartEnabled = true;
+                settings.ProcessEnabled = true;
+                MessageBox.Show("Готово!");
+
+                prgrs.Report(0);
+            });
+
+
 
 
             
@@ -225,5 +260,6 @@ namespace EarTrainer
         {
             settings.Period += 10;
         }
+
     }
 }
