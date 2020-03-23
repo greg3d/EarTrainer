@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EarTrainer"
         mc:Ignorable="d"
-        Title="SquareModulator v0.75" MinWidth="750" MinHeight="420"
+        Title="SquareModulator v0.8" MinWidth="750" MinHeight="420"
         x:Name="MainWindow1" Height="420" Width="750">
+
+    <Window.Resources>
+        <local:TesterConverter x:Key="testerConverter" />
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -28,13 +32,13 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Label x:Name="label4" Content="Длительность T полу-волны, мс:" Grid.ColumnSpan="2" Height="26" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="5,0" RenderTransformOrigin="0.501,0.526"/>
-                    <TextBox x:Name="periodBox" TextWrapping="Wrap" IsEnabled="{Binding Path=ProcessEnabled}" Text="{Binding Path=Period, Mode=TwoWay}" Grid.Column="1" Height="26" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="80"/>
+                    <TextBox x:Name="periodBox" TextWrapping="Wrap" IsEnabled="{Binding Path=ProcessEnabled}" Text="{Binding StringFormat={}{0:F2}, Path=Period, Mode=TwoWay }" Grid.Column="1" Height="26" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="80"/>
                     <Button x:Name="minus1" IsEnabled="{Binding Path=ProcessEnabled}" Content="-1" Grid.Column="1" Margin="85,0,0,0" HorizontalAlignment="Left" Width="35" Height="26" VerticalAlignment="Top" Click="minus1_Click"/>
                     <Button x:Name="plus1" IsEnabled="{Binding Path=ProcessEnabled}" Content="+1" Grid.Column="1" Margin="121,0,0,0" HorizontalAlignment="Left" Width="35" Height="26" VerticalAlignment="Top" Click="plus1_Click"/>
                     <Button x:Name="minus10" IsEnabled="{Binding Path=ProcessEnabled}" Content="-10" Grid.Column="1" Margin="161,0,0,0" HorizontalAlignment="Left" Width="35" Height="26" VerticalAlignment="Top" Click="minus10_Click"/>
                     <Button x:Name="plus10" IsEnabled="{Binding Path=ProcessEnabled}" Content="+10" Grid.Column="1" Margin="197,0,0,0" HorizontalAlignment="Left" Width="35" Height="26" VerticalAlignment="Top" Click="plus10_Click"/>
                 </Grid>
-                <Slider x:Name="slider" IsEnabled="{Binding Path=ProcessEnabled}" IsSnapToTickEnabled="True" TickPlacement="BottomRight" TickFrequency="1" Value="{Binding Path=Period}" Margin="5,0" Minimum="1" Maximum="150"/>
+                <Slider Ticks="" x:Name="slider" IsEnabled="{Binding Path=ProcessEnabled}" IsSnapToTickEnabled="True" TickPlacement="BottomRight" TickFrequency="1" Value="{Binding Path=Period, Mode=TwoWay, Converter={StaticResource testerConverter}}" Margin="5,0" Minimum="1" Maximum="66"/>
                 <Grid Height="150">
                     <Image x:Name="image" HorizontalAlignment="Left" Margin="5,10" Width="225" Source="asd.png"/>
                     <Label x:Name="label2" Content="Левый канал" HorizontalAlignment="Left" Margin="185,37,0,0" VerticalAlignment="Top"/>

@@ -35,7 +35,7 @@ namespace EarTrainer
         public MainWindow()
         {
             settings = new Settingz();
-            settings.Period = 10;
+            settings.Period = 5;
 
             this.DataContext = settings;
             InitializeComponent();
@@ -47,23 +47,25 @@ namespace EarTrainer
             settings.ProcessEnabled = false;
             settings.IsProcessing = false;
             progBarMessage.Visibility = Visibility.Hidden;
-
-            
-
-            
         }
 
         private void Settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Period")
             {
-                settings.OutputFile = file + "__" + settings.Period.ToString() + "ms.wav";
 
                 if (settings.Period <= 0)
                 {
-                    settings.Period = 1;
+                    
+                    settings.Period = 0.01f;
                 }
+
+                settings.OutputFile = file + "__" + settings.Period.ToString() + "ms.wav";
+
             }
+
+
+
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
@@ -242,23 +244,23 @@ namespace EarTrainer
 
         private void minus1_Click(object sender, RoutedEventArgs e)
         {
-            settings.Period -= 1;
+            settings.Period = (float)Math.Round(settings.Period - 0.01, 2);
         }
 
         private void plus1_Click(object sender, RoutedEventArgs e)
         {
-            settings.Period += 1;
+            settings.Period = (float)Math.Round(settings.Period + 0.01, 2);
         }
 
         private void minus10_Click(object sender, RoutedEventArgs e)
         {
-            settings.Period -= 10;
+            settings.Period = (float)Math.Round(settings.Period - 1, 2);
 
         }
 
         private void plus10_Click(object sender, RoutedEventArgs e)
         {
-            settings.Period += 10;
+            settings.Period = (float)Math.Round(settings.Period + 1, 2);
         }
 
     }

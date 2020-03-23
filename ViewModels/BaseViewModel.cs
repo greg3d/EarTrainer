@@ -3,7 +3,6 @@ using System.ComponentModel;
 
 namespace EarTrainer
 {
-    [Magic]
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
         protected virtual void RaisePropertyChanged(string propName)
@@ -16,5 +15,6 @@ namespace EarTrainer
     }
 
     class MagicAttribute : Attribute { }
+    class NoMagicAttribute : Attribute { }
 }
 
