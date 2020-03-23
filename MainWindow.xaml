@@ -43,7 +43,12 @@
                     <Image x:Name="image" HorizontalAlignment="Left" Margin="5,10" Width="225" Source="asd.png"/>
                     <Label x:Name="label2" Content="Левый канал" HorizontalAlignment="Left" Margin="185,37,0,0" VerticalAlignment="Top"/>
                     <Label x:Name="label2_Copy" Content="Правый канал" HorizontalAlignment="Left" Margin="185,94,0,0" VerticalAlignment="Top"/>
-                    <Label x:Name="label2_Copy1" Content="Формат выходного файла:&#xD;&#xA;44100 Hz&#xD;&#xA;16bit&#xD;&#xA;PCM Stereo&#xD;&#xA;" HorizontalAlignment="Left" Margin="318,37,0,0" VerticalAlignment="Top" Height="83"/>
+                    <Label x:Name="label2_Copy1" Content="Формат выходного файла:&#xA;16bit&#xA;PCM Stereo&#xA;" HorizontalAlignment="Left" Margin="318,37,0,0" VerticalAlignment="Top" Height="59"/>
+                    <Label x:Name="sampleRateLabel" Content="{Binding Path=SampleRate, ValidatesOnExceptions=True, StringFormat={}{0}Hz}" HorizontalAlignment="Left" Margin="358,53,0,0" VerticalAlignment="Top" Height="29" Width="141"/>
+                    <Button x:Name="sampleRateChange" Content="44100 Hz" Margin="318,96,0,0" Height="28" VerticalAlignment="Top" HorizontalAlignment="Left" Width="61" Click="sampleRateChange_Click"/>
+                    <Button x:Name="sampleRateChange_Copy" Content="96000 Hz" Margin="384,96,0,0" Height="28" VerticalAlignment="Top" HorizontalAlignment="Left" Width="63" Click="sampleRateChange_Copy_Click"/>
+                    <Button x:Name="sampleRateChange_Copy1" Content="192000 Hz" Margin="452,96,0,0" Height="28" VerticalAlignment="Top" HorizontalAlignment="Left" Width="73" Click="sampleRateChange_Copy1_Click"/>
+
                 </Grid>
 
             </StackPanel>

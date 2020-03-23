@@ -88,5 +88,7 @@ namespace EarTrainer
         public bool ProcessEnabled { get; set; } = false;
         public bool IsProcessing { get; set; } = false;
 
+        public int SampleRate { get; set; } = 44100;
+
     }
 }

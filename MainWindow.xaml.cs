@@ -127,7 +127,7 @@ namespace EarTrainer
 
                 var n = audioFile.Length / (audioFile.WaveFormat.BitsPerSample / 8) / audioFile.WaveFormat.Channels;
 
-                var outFormat = new WaveFormat(44100, 2);
+                var outFormat = new WaveFormat(settings.SampleRate, 2);
                 ISampleProvider wave;
 
                 using (var resampler = new MediaFoundationResampler(audioFile, outFormat))
@@ -147,7 +147,7 @@ namespace EarTrainer
                 //string outpath = @"E:\states.dat";
                 string outwav = settings.OutputFile;
 
-                float FS = 44100;
+                float FS = settings.SampleRate;
 
                 prgrs.Report(10);
                 Thread.Sleep(200);
@@ -263,5 +263,19 @@ namespace EarTrainer
             settings.Period = (float)Math.Round(settings.Period + 1, 2);
         }
 
+        private void sampleRateChange_Click(object sender, RoutedEventArgs e)
+        {
+            settings.SampleRate = 44100;
+        }
+
+        private void sampleRateChange_Copy_Click(object sender, RoutedEventArgs e)
+        {
+            settings.SampleRate = 96000;
+        }
+
+        private void sampleRateChange_Copy1_Click(object sender, RoutedEventArgs e)
+        {
+            settings.SampleRate = 192000;
+        }
     }
 }
