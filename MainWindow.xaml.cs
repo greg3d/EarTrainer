@@ -142,6 +142,9 @@ namespace EarTrainer
 
                 var bits = wave.WaveFormat.BitsPerSample;
                 var Fs = wave.WaveFormat.SampleRate;
+
+                //MessageBox.Show(Fs.ToString());
+
                 var channels = wave.WaveFormat.Channels;
                 
                 //string outpath = @"E:\states.dat";
@@ -175,7 +178,7 @@ namespace EarTrainer
                         var leftVal = samples[0];
                         var rightVal = samples[1];
 
-                        var curPath = Math.Round(i * 1000f / FS);
+                        var curPath = (i * 1000f / FS);
 
                         if (curPath >= fullPath)
                         {
