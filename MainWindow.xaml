@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EarTrainer"
         mc:Ignorable="d"
-        Title="SquareModulator v0.7" MinWidth="750" MinHeight="420"
+        Title="SquareModulator v0.75" MinWidth="750" MinHeight="420"
         x:Name="MainWindow1" Height="420" Width="750">
     <Grid>
         <Grid.ColumnDefinitions>

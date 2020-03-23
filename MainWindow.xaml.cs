@@ -153,7 +153,7 @@ namespace EarTrainer
                 using (WaveFileWriter outWavFile = new WaveFileWriter(outwav, new WaveFormat((int)FS, 16, 2)))
                 {
                     
-                    float period = 10f; // ms
+                    float period = settings.Period; // ms
                     double fullPath = period;
 
                     int bb = 0;
